@@ -4,6 +4,10 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
@@ -158,5 +162,77 @@ public class MemberRepositoryTest {
         Optional<Member> findMember3 = memberRepository.findListByUsername3("member1");
 
         System.out.println("findMember2 = " + findMember2);
+    }
+
+    @Test
+    public void paging() {
+
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 10));
+        memberRepository.save(new Member("member3", 10));
+        memberRepository.save(new Member("member4", 10));
+        memberRepository.save(new Member("member5", 10));
+        memberRepository.save(new Member("member6", 10));
+        memberRepository.save(new Member("member7", 10));
+        memberRepository.save(new Member("member8", 10));
+
+        int age = 10;
+        //spring data jpa 의 페이징은 0부터 시작한다.
+        //0번째에서 3개를 가져온다는 의미, username 기준으로 desc 정렬
+        PageRequest pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "username"));
+
+        //when
+        Page<Member> pagedMember = memberRepository.findByAge(age, pageRequest);
+        List<Member> members = pagedMember.getContent();
+        //getContent 와 toList 의 차이는 뭘까??
+
+        //Entity를 곧바로 사용하여 controller에서 return 하면 api 스팩이 바뀔수 있기 때문에 항상 dto 로 변환을 하고 return 해야한다.
+        Page<MemberDto> pagedMemberDto = pagedMember.map(m -> new MemberDto(m.getId(), m.getUsername(), null));
+
+        members.stream().forEach(member -> System.out.println("member = " + member));
+        //then
+        assertEquals(3, members.size());
+        assertEquals(8, pagedMember.getTotalElements());
+        assertEquals(0, pagedMember.getNumber()); //페이지 번호
+        assertEquals(3, pagedMember.getTotalPages()); //총 페이지 개수
+        assertEquals(true, pagedMember.isFirst()); //첫번째 페이지인가?
+        assertEquals(true, pagedMember.hasNext()); //다음페이지를 가지고있는가?
+        assertEquals(false, pagedMember.isLast()); //마지막 페이지인가?
+
+
+    }
+
+    @Test
+    public void slice() {
+
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 10));
+        memberRepository.save(new Member("member3", 10));
+        memberRepository.save(new Member("member4", 10));
+        memberRepository.save(new Member("member5", 10));
+        memberRepository.save(new Member("member6", 10));
+        memberRepository.save(new Member("member7", 10));
+        memberRepository.save(new Member("member8", 10));
+
+        //spring data jpa 의 페이징은 0부터 시작한다.
+        //0번째에서 3개를 가져온다는 의미, username 기준으로 desc 정렬
+        PageRequest pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "username"));
+        int age = 10;
+
+        //when
+        Slice<Member> pagedMember = memberRepository.findSliceByAge(age, pageRequest);
+        List<Member> members = pagedMember.getContent();
+        //getContent 와 toList의 차이는 뭘까??
+
+        members.stream().forEach(member -> System.out.println("member = " + member));
+        //then
+        assertEquals(3, members.size());
+//        assertEquals(8, pagedMember.getTotalElements());
+        assertEquals(0, pagedMember.getNumber()); //페이지 번호
+//        assertEquals(3, pagedMember.getTotalPages()); //총 페이지 개수
+        assertEquals(true, pagedMember.isFirst()); //첫번째 페이지인가?
+        assertEquals(true, pagedMember.hasNext()); //다음페이지를 가지고있는가?
+        assertEquals(false, pagedMember.isLast()); //마지막 페이지인가?
+
     }
 }
