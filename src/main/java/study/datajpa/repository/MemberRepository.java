@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import study.datajpa.dto.MemberDto;
@@ -49,4 +50,8 @@ public interface MemberRepository extends JpaRepository<Member, Long>, JpaSpecif
             countQuery = "select count(m) from MEMBER m") //카운트 쿼리를 분기할 수 있다.
     Page<Member> findByAge(int age, Pageable pageable);
     Slice<Member> findSliceByAge(int age, Pageable pageable); //Slice는 totalCount를 조회하지 않는다.
+
+    @Modifying(clearAutomatically = true)
+    @Query("update MEMBER m set m.age = m.age + 1 where m.age >= :age")
+    int bulkAgePlus(@Param("age") int age);
 }

@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor//Entity를 만들때 디폴트생성자가 필요함. protected 까지 열어놔야함,
-@ToString(of = {"id", "username"}) //of : 지정한 변수만 toString 로그 생성
+@ToString(of = {"id", "username", "age"}) //of : 지정한 변수만 toString 로그 생성
 @NamedQuery(
         name = "Member.findByUsername",
         query="select m from MEMBER m where m.username = :username"

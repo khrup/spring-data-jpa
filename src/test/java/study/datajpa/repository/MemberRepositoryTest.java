@@ -13,6 +13,8 @@ import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
 import study.datajpa.entity.Team;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +27,8 @@ public class MemberRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
 
+    @PersistenceContext
+    private EntityManager em;
     @Autowired
     TeamRepository teamRepository;
 
@@ -234,5 +238,29 @@ public class MemberRepositoryTest {
         assertEquals(true, pagedMember.hasNext()); //다음페이지를 가지고있는가?
         assertEquals(false, pagedMember.isLast()); //마지막 페이지인가?
 
+    }
+
+    @Test
+    public void bulkUpdate() {
+        memberRepository.save(new Member("member1", 10));
+        memberRepository.save(new Member("member2", 11));
+        memberRepository.save(new Member("member3", 12));
+        memberRepository.save(new Member("member4", 13));
+        memberRepository.save(new Member("member5", 14));
+        memberRepository.save(new Member("member6", 15));
+        memberRepository.save(new Member("member7", 16));
+        memberRepository.save(new Member("member8", 17));
+
+        int i = memberRepository.bulkAgePlus(13);
+
+//        em.flush(); //
+//        em.clear(); //영속성 컨텍스트 내용 책보고 이해하기
+
+
+        List<Member> member5 = memberRepository.findByUsername("member5");
+        Member member = member5.get(0);
+        System.out.println("member = " + member);
+
+        assertEquals(5, i);
     }
 }
