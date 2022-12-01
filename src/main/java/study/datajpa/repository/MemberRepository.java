@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
 
+import javax.persistence.LockModeType;
+import javax.persistence.QueryHint;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,19 +46,23 @@ public interface MemberRepository extends JpaRepository<Member, Long>, JpaSpecif
     Optional<Member> findListByUsername3(@Param("name") String username);// 단건 조회는 왠만하면 Optional을 사용하자!!
 
     @Query(value = "select m from MEMBER m left join m.team t",
-            countQuery = "select count(m) from MEMBER m") //카운트 쿼리를 분기할 수 있다.
+            countQuery = "select count(m) from MEMBER m")
+        //카운트 쿼리를 분기할 수 있다.
     Page<Member> findByAge(int age, Pageable pageable);
+
     Slice<Member> findSliceByAge(int age, Pageable pageable); //Slice는 totalCount를 조회하지 않는다.
 
     @Modifying(clearAutomatically = true)
     @Query("update MEMBER m set m.age = m.age + 1 where m.age >= :age")
     int bulkAgePlus(@Param("age") int age);
 
-    @Query("select m from MEMBER m left join fetch m.team")// fetch join 연관된 쿼리를 한번에 조회한다.
+    @Query("select m from MEMBER m left join fetch m.team")
+// fetch join 연관된 쿼리를 한번에 조회한다.
     List<Member> findMemberFetchJoin();
 
     @Override
-    @EntityGraph(attributePaths = {"team"}) //
+    @EntityGraph(attributePaths = {"team"})
+        //
     List<Member> findAll();
 
     @Query("select m from MEMBER m")
@@ -65,4 +71,10 @@ public interface MemberRepository extends JpaRepository<Member, Long>, JpaSpecif
 
     @EntityGraph(attributePaths = {"team"})
     List<Member> findEntityGraphByUsername(@Param("username") String username);
+
+    @QueryHints(value = @QueryHint(name = "org.hibernate.readOnly", value = "true"))
+    Member findReadOnlyByUsername(String username);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE) //jpa 가 지원하는 lock annotation , 쉽게 Lock 걸게해줌
+    List<Member> findLockByUserName(String username);
 }
