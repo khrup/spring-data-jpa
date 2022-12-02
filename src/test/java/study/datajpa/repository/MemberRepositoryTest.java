@@ -301,8 +301,8 @@ public class MemberRepositoryTest {
         //given
         Member member1 = new Member("member1", 10);
         memberRepository.save(member1);
-        em.flush();//db commit
-        em.clear();//영속성 컨텐스트 다 날라감
+        em.flush();//영속성 컨텍스트를 지우지 않고 쿼리를 DB에 날려서 DB 와의 싱크를 맞추는 역할을 한다. 쿼리를 보내고 난 후에 commit()을 실행한다.
+        em.clear();//영속성 컨텍스트 다 날라감
 
         //when
         Member findMember = memberRepository.findReadOnlyByUsername("member1");
@@ -317,8 +317,8 @@ public class MemberRepositoryTest {
         //given
         Member member1 = new Member("member1", 10);
         memberRepository.save(member1);
-        em.flush();//db commit
-        em.clear();//영속성 컨텐스트 다 날라감
+        em.flush();//영속성 컨텍스트를 지우지 않고 쿼리를 DB에 날려서 DB 와의 싱크를 맞추는 역할을 한다. 쿼리를 보내고 난 후에 commit()을 실행한다.
+        em.clear();//영속성 컨텍스트 다 날라감
 
         //when
         List<Member> result = memberRepository.findLockByUserName("member1");

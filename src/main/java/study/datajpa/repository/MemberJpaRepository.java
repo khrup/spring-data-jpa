@@ -25,7 +25,7 @@ public class MemberJpaRepository {
     }
 
     public List<Member> findAll() {
-        return em.createQuery("select m from MEMBER m", Member.class) //JPQL 문법
+        return em.createQuery("select m from Member m", Member.class) //JPQL 문법
                 .getResultList();
     }
 
@@ -35,7 +35,7 @@ public class MemberJpaRepository {
     }
 
     public Long count() {
-        return em.createQuery("select count(m) from MEMBER m", Long.class).getSingleResult();
+        return em.createQuery("select count(m) from Member m", Long.class).getSingleResult();
     }
 
     public Member find(Long id) {
@@ -49,7 +49,7 @@ public class MemberJpaRepository {
     }
 
     public List<Member> findByPage(int age, int offset, int limit) {
-        return em.createQuery("select m from MEMBER m where m.age = :age order by m.username desc")
+        return em.createQuery("select m from Member m where m.age = :age order by m.username desc")
                 .setParameter("age", age)
                 .setFirstResult(offset) //몇번째 부터 가져올 것인지
                 .setMaxResults(limit) //몇개 가져올것인지
@@ -57,13 +57,13 @@ public class MemberJpaRepository {
     }
 
     public long totalCount(int age) {
-        return em.createQuery("select count(m) from MEMBER m where m.age = :age", Long.class)
+        return em.createQuery("select count(m) from Member m where m.age = :age", Long.class)
                 .setParameter("age", age)
                 .getSingleResult();
     }
 
     public int bulkAgePlus(int age) {
-        return em.createQuery("update MEMBER m set m.age = m.age + 1 where m.age >= :age")
+        return em.createQuery("update Member m set m.age = m.age + 1 where m.age >= :age")
                 .setParameter("age", age)
                 .executeUpdate();
     }

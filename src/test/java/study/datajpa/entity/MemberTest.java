@@ -43,7 +43,7 @@ class MemberTest {
         em.clear();// db cache 날림
 
         //확인
-        List<Member> members = em.createQuery("select m from MEMBER m", Member.class).getResultList();
+        List<Member> members = em.createQuery("select m from Member m", Member.class).getResultList();
 
         for (Member member :
                 members) {
