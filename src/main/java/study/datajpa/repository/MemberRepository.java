@@ -74,6 +74,6 @@ public interface MemberRepository extends JpaRepository<Member, Long>, JpaSpecif
     @QueryHints(value = @QueryHint(name = "org.hibernate.readOnly", value = "true"))
     Member findReadOnlyByUsername(String username);
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE) //jpa 가 지원하는 lock annotation , 쉽게 Lock 걸게해줌
-    List<Member> findLockByUserName(String username);
+//    @Lock(LockModeType.PESSIMISTIC_WRITE) //jpa 가 지원하는 lock annotation , 쉽게 Lock 걸게해줌
+//    List<Member> findLockByUserName(String username);
 }

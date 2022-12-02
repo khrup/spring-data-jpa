@@ -321,7 +321,7 @@ public class MemberRepositoryTest {
         em.clear();//영속성 컨텍스트 다 날라감
 
         //when
-        List<Member> result = memberRepository.findLockByUserName("member1");
+//        List<Member> result = memberRepository.findLockByUserName("member1");
 
     }
 }
