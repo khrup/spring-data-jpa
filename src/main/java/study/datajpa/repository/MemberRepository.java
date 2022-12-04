@@ -13,7 +13,7 @@ import javax.persistence.QueryHint;
 import java.util.List;
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<Member, Long>, JpaSpecificationExecutor<Member> { //Long은 Member 의 key
+public interface MemberRepository extends JpaRepository<Member, Long>, JpaSpecificationExecutor<Member>, MemberRepositoryCustom { //Long은 Member 의 key
 
     //1. 메소드 이름으로 쿼리생성
     List<Member> findByUsernameAndAgeGreaterThan(String username, int age);

@@ -32,6 +32,9 @@ public class MemberRepositoryTest {
     @Autowired
     TeamRepository teamRepository;
 
+    @Autowired
+    MemberCustomRepository memberCustomRepository;
+
     @Test
     public void testMember() {
         Member member = new Member("memberA");
@@ -324,4 +327,24 @@ public class MemberRepositoryTest {
 //        List<Member> result = memberRepository.findLockByUserName("member1");
 
     }
+
+    @Test
+    public void callCustom() {
+        List<Member> result = memberRepository.findMemberCustom();
+
+        System.out.println("result = " + result);
+    }
+
+    @Test
+    public void customRepositoryTest() {
+        Member member1 = new Member("member1");
+        Member member2 = new Member("member2");
+
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        List<Member> members = memberCustomRepository.allMember();
+        assertEquals(2, members.size());
+    }
+
 }
