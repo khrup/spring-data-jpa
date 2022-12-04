@@ -11,9 +11,9 @@ import javax.persistence.*;
 @ToString(of = {"id", "username", "age"}) //of : 지정한 변수만 toString 로그 생성
 @NamedQuery(
         name = "Member.findByUsername",
-        query="select m from Member m where m.username = :username"
+        query = "select m from Member m where m.username = :username"
 )//잘 사용안하는 방법임
-public class Member {
+public class Member extends BaseEntity {//JpaBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
