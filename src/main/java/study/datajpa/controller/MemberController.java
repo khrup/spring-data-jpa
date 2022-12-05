@@ -32,12 +32,12 @@ public class MemberController {
         return member.getUsername();
     }
 
-    @PostConstruct
-    public void init() {
-        for (int i = 0; i < 100; i++) {
-            memberRepository.save(new Member("user" + i, i));
-        }
-    }
+//    @PostConstruct
+//    public void init() {
+//        for (int i = 0; i < 100; i++) {
+//            memberRepository.save(new Member("user" + i, i));
+//        }
+//    }
 
     @GetMapping("/members")
     public Page<MemberDto> list(@PageableDefault(size = 5) Pageable pageable) {
