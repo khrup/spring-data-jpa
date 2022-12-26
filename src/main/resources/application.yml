@@ -21,5 +21,5 @@ spring:
 logging:
   level:
     org:
-      hibernate.SQL: debug
+      #hibernate.SQL: debug
       #org.hibernate.type: trace #파라미터까지 확인가능
