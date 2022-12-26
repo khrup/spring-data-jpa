@@ -7,7 +7,7 @@ spring:
 
   jpa:
     hibernate:
-        ddl-auto: create #애플리케이션을 로딩시점에 테이블을 드랍하 깨끗하게 생성, 마지막에 애플리케이션이 내려가도 확인가능
+        ddl-auto: create #애플리케이션을 로딩시점에 테이블을 드랍하고 깨끗하게 생성, 마지막에 애플리케이션이 내려가도 확인가능
     properties:
       hibernate:
         #show_sql: true #jpa가 실행하는 모든 쿼리를 로그로 찍는다.
