@@ -25,15 +25,15 @@ class goodsRepositoryTest {
     @BeforeEach
     public void sampleCreateGoods() {
 
-        String goodsNo = "G1";
+        Long goodsNo = 1L;
 
         GdGoods 상품A = new GdGoods(goodsNo, "상품A");
 
         goodsRepository.save(상품A);
 
-        GdGoodsImg 상품이미지A = new GdGoodsImg(goodsNo, "1", "A");
+        GdGoodsImg 상품이미지A = new GdGoodsImg(goodsNo, 1L, "A");
         상품이미지A.setGdGoods(상품A);
-        GdGoodsImg 상품이미지A_1 = new GdGoodsImg(goodsNo, "2", "A");
+        GdGoodsImg 상품이미지A_1 = new GdGoodsImg(goodsNo, 2L, "A");
         상품이미지A_1.setGdGoods(상품A);
 
         goodsImgRepository.save(상품이미지A);

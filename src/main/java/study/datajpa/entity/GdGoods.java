@@ -15,15 +15,11 @@ import java.util.List;
 public class GdGoods extends BaseEntity {
 
     @Id
-    private String goodsNo;
+    private Long goodsNo;
     private String goodsNm;
 
-    public GdGoods(String goodsNo, String goodsNm) {
+    public GdGoods(Long goodsNo, String goodsNm) {
         this.goodsNo = goodsNo;
-        this.goodsNm = goodsNm;
-    }
-
-    public GdGoods(String goodsNm) {
         this.goodsNm = goodsNm;
     }
 

@@ -15,12 +15,11 @@ import java.io.Serializable;
 public class GdGoodsImg extends BaseEntity {
 
     @Id
-    @Column(name = "goods_no")
-    private String goodsNo;
+    private Long goodsNo;
 
     @Id
     @Column(name = "img_seq")
-    private String imgSeq;
+    private Long imgSeq;
 
     private String imgPath;
 
@@ -28,7 +27,7 @@ public class GdGoodsImg extends BaseEntity {
     @JoinColumn(name = "goodsNo", updatable = false, insertable = false, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
     private GdGoods gdGoods;
 
-    public GdGoodsImg(String goodsNo, String imgSeq, String imgPath) {
+    public GdGoodsImg(Long goodsNo, Long imgSeq, String imgPath) {
         this.goodsNo = goodsNo;
         this.imgSeq = imgSeq;
         this.imgPath = imgPath;
