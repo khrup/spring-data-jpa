@@ -10,7 +10,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners(AuditingEntityListener.class) //Entity 변경감지를 한다.
 @MappedSuperclass
 @Getter
 public class BaseTimeEntity {

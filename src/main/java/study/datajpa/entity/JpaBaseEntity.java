@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass //변수들을 내려서 테이블에 영향을 준다.
 public class JpaBaseEntity {
 
-    @Column(updatable = false) //createDate는 수정되지 못하게 updateable false로 주었
+    @Column(updatable = false) //createDate는 수정되지 못하게 updateable false로 주었음.
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
 
@@ -20,7 +20,7 @@ public class JpaBaseEntity {
         this.updateDate = now;
     }
 
-    @PreUpdate
+    @PreUpdate //update 하기전에 실행됨
     public void preUpdate() {
         updateDate = LocalDateTime.now();
     }
