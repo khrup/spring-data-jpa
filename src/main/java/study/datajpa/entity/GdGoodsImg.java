@@ -25,6 +25,7 @@ public class GdGoodsImg extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "goodsNo", updatable = false, insertable = false, foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+    //foreignKey = @ForeignKey(value = ConstraintMode.NO_CONSTRAINT) : 이 조건은 jpa 가 물리적으로 테이블을 생성할때 영향을 준다. db 는 jpa가 아니라 직접 ddl을 작성하기 때문에 영향이 미치지 않는다.
     private GdGoods gdGoods;
 
     public GdGoodsImg(Long goodsNo, Long imgSeq, String imgPath) {
