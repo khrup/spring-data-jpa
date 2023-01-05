@@ -25,7 +25,7 @@ public class MemberJpaRepository {
     }
 
     public List<Member> findAll() {
-        return em.createQuery("select m from Member m", Member.class) //JPQL 문법
+        return em.createQuery("select m from Member m", Member.class) //JPQL 문법, JPQL 은 객체를 대상으로 하는 쿼리다.
                 .getResultList();
     }
 

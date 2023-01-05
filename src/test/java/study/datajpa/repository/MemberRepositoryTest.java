@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.dto.MemberDto;
+import study.datajpa.dto.MemberDto2;
 import study.datajpa.entity.Member;
 import study.datajpa.entity.Team;
 
@@ -415,5 +416,42 @@ public class MemberRepositoryTest {
 
         member1.setAge(20);
 
+    }
+
+    @Test
+    @Rollback(false)
+    public void nativeQuery2() {
+        //findByNativeProjection
+        Team teamA = new Team("teamA");
+        Team teamB = new Team("teamB");
+
+        teamRepository.save(teamA);
+        teamRepository.save(teamB);
+
+        Member member1 = new Member("member1", 10, teamA);
+        Member member2 = new Member("member2", 10, teamA);
+
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        em.flush();
+        em.clear();
+
+
+        Page<MemberProjection> result = memberRepository.findByNativeProjection(PageRequest.of(0, 10));
+        List<MemberProjection> content = result.getContent();
+        for (MemberProjection memberProjection : content) {
+            System.out.println("memberProjection = " + memberProjection.getUsername());
+        }
+
+        List<MemberProjection> byNativeProjection = memberRepository.findByNativeProjection();
+        for (MemberProjection memberProjection : byNativeProjection) {
+            System.out.println("memberProjection2 = " + memberProjection.getUsername());
+        }
+
+        List<MemberDto2> byNativeProjection2 = memberRepository.findByNativeProjection2();
+        for (MemberDto2 memberDto2 : byNativeProjection2) {
+            System.out.println("memberDto2 = " + memberDto2.getUsername());
+        }
     }
 }

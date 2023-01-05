@@ -45,15 +45,15 @@ class MemberJpaRepositoryTest {
         assertEquals(member2, findMember2);
 
         List<Member> all = memberJpaRepository.findAll();
-        assertEquals(all.size(), 2);
+        assertEquals(2, all.size());
 
         long count = memberJpaRepository.count();
-        assertEquals(count, 2);
+        assertEquals(2, all.size());
 
         memberJpaRepository.delete(member1);
         memberJpaRepository.delete(member2);
         long deleteCount = memberJpaRepository.count();
-        assertEquals(deleteCount, 0);
+        assertEquals(0, deleteCount);
     }
 
     @Test

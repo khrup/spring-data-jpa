@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import study.datajpa.dto.MemberDto;
 import study.datajpa.entity.Member;
 
-import javax.persistence.LockModeType;
 import javax.persistence.QueryHint;
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +60,8 @@ public interface MemberRepository extends JpaRepository<Member, Long>, JpaSpecif
     List<Member> findMemberFetchJoin();
 
     @Override
-    @EntityGraph(attributePaths = {"team"})//
+    @EntityGraph(attributePaths = {"team"})
+//
     List<Member> findAll();
 
     @Query("select m from Member m")
@@ -79,7 +79,22 @@ public interface MemberRepository extends JpaRepository<Member, Long>, JpaSpecif
 
     List<UsernameOnly> findProjectionByUsername(@Param("username") String username);
 
+    //단점 :
+    // 1. Entity 에 맞게 colum 을 일일히 지정하거나 *로 표시해야함
+    // 2. 리턴타입이 애매함.
+    // 3. 차라리 jdbcTemplate or mybatis 쓰는게 낫다.
+    // 4. 동적 쿼리 불가
+    // 5. 애플리케이션 로딩시점에 문법 확인불가
     @Query(value = "select * from member where username = ?", nativeQuery = true)
     Member findByNativeQuery(String username);
+
+
+    @Query(value = "select m.member_id as id, m.username from Member m, Team t where m.team_id = t.team_id",
+            countQuery = "select count(*) from member"
+            , nativeQuery = true)
+    Page<MemberProjection> findByNativeProjection(Pageable pageable);
+
+    @Query(value = "select m.member_id as id, m.username from Member m, Team t where m.team_id = t.team_id", nativeQuery = true)
+    List<MemberProjection> findByNativeProjection();
 
 }
