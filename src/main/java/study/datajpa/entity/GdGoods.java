@@ -9,20 +9,18 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)//Entity를 만들때 디폴트생성자가 필요함. protected 까지 열어놔야함,
-@ToString
-@AllArgsConstructor
-@Builder
 public class GdGoods extends BaseEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long goodsNo;
     private String goodsNm;
 
-    public GdGoods(Long goodsNo, String goodsNm) {
-        this.goodsNo = goodsNo;
+    public GdGoods(String goodsNm) {
         this.goodsNm = goodsNm;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "gdGoods")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "gdGoods")
+    @JoinColumn(name = "goods_no")
     private List<GdGoodsImg> gdGoodsImgList = new ArrayList<>();
 }

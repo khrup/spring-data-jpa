@@ -22,18 +22,16 @@ class goodsRepositoryTest {
     @Autowired
     goodsImgRepository goodsImgRepository;
 
-    @BeforeEach
+//    @BeforeEach
     public void sampleCreateGoods() {
 
-        Long goodsNo = 1L;
-
-        GdGoods 상품A = new GdGoods(goodsNo, "상품A");
+        GdGoods 상품A = new GdGoods("상품A");
 
         goodsRepository.save(상품A);
 
-        GdGoodsImg 상품이미지A = new GdGoodsImg(goodsNo, 1L, "A");
+        GdGoodsImg 상품이미지A = new GdGoodsImg("A");
         상품이미지A.setGdGoods(상품A);
-        GdGoodsImg 상품이미지A_1 = new GdGoodsImg(goodsNo, 2L, "A");
+        GdGoodsImg 상품이미지A_1 = new GdGoodsImg( "B");
         상품이미지A_1.setGdGoods(상품A);
 
         goodsImgRepository.save(상품이미지A);
@@ -55,9 +53,22 @@ class goodsRepositoryTest {
             System.out.println("gdGoodsImg = " + gdGoodsImg);
         }
 
-        goodsRepository.deleteGdGoodsByGoodsNo(1L);
+//        goodsRepository.deleteGdGoodsByGoodsNo(1L);
 //        GdGoodsImg findGdGoodsImg = goodsImgRepository.findById(GdGoodsImgId.builder().goodsNo(1L).imgSeq(1L).build()).get();
 //
 //        goodsImgRepository.delete(findGdGoodsImg);
+    }
+
+    @Test
+    @Rollback(false)
+    public void gdGoodsAllSearchTest() {
+
+        sampleCreateGoods();
+
+        List<GdGoods> allFindGoodsList = goodsRepository.findAll();
+        for (GdGoods allFindGoods : allFindGoodsList) {
+            System.out.println("allFindGoods = " + allFindGoods);
+            System.out.println("getGdGoodsImgList = " + allFindGoods.getGdGoodsImgList());
+        }
     }
 }
