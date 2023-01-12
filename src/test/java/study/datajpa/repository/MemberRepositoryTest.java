@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import study.datajpa.dto.MemberDto;
-import study.datajpa.dto.MemberDto2;
 import study.datajpa.entity.Member;
 import study.datajpa.entity.Team;
 
@@ -449,9 +448,5 @@ public class MemberRepositoryTest {
             System.out.println("memberProjection2 = " + memberProjection.getUsername());
         }
 
-        List<MemberDto2> byNativeProjection2 = memberRepository.findByNativeProjection2();
-        for (MemberDto2 memberDto2 : byNativeProjection2) {
-            System.out.println("memberDto2 = " + memberDto2.getUsername());
-        }
     }
 }
