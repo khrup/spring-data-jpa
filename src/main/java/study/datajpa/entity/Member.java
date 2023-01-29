@@ -3,6 +3,8 @@ package study.datajpa.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity // (name = "MEMBER") name을 설정하면 DB의 테이블 명을 맞출 수 있다.
 @Getter
@@ -56,4 +58,10 @@ public class Member extends BaseEntity {//JpaBaseEntity {
         this.team = team;
         team.getMembers().add(this);
     }
+
+    @ManyToMany
+    @JoinTable(name = "MEMBER_PRODUCT",
+    joinColumns = @JoinColumn(name = "member_id"),
+    inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private List<Product> products = new ArrayList<>();
 }
